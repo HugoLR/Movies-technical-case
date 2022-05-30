@@ -4,6 +4,8 @@
     "baseUrl": "./src",
     "paths": {
       "~app/*": ["app/*"],
+      "~molecules/*": ["molecules/*"],
+      "~pages/*": ["pages/*"],
       "~routes/*": ["routes/*"]
     },
     "useDefineForClassFields": true,
