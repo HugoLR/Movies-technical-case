@@ -4,9 +4,12 @@
     "baseUrl": "./src",
     "paths": {
       "~app/*": ["app/*"],
+      "~atoms/*": ["atoms/*"],
+      "~hooks/*": ["hooks/*"],
       "~molecules/*": ["molecules/*"],
       "~pages/*": ["pages/*"],
-      "~routes/*": ["routes/*"]
+      "~routes/*": ["routes/*"],
+      "~utils/*": ["utils/*"]
     },
     "useDefineForClassFields": true,
     "lib": ["DOM", "DOM.Iterable", "ESNext"],

@@ -1,0 +1,13 @@
+.Home {
+  min-height: 100%;
+  padding: 2.4rem 1.6rem;
+  background-color: #0b121f;
+}
+.Home-title {
+  color: #e6e2df;
+}
+.Home-main {
+  padding-top: 1.6rem;
+  display: grid;
+  gap: 2.4rem;
+}
