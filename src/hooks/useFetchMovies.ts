@@ -18,18 +18,12 @@ export interface IMovie {
   vote_average: number;
   vote_count: number;
 }
-
-interface IServiceResponse {
-  page: number;
-  results: IMovie[];
-  total_pages: number;
-  total_results: number;
-}
-
 interface IResponse {
-  data: IServiceResponse | null;
+  movies: IMovie[] | null;
   loading: boolean;
   error: null | string;
+  setPage: React.Dispatch<React.SetStateAction<number>>;
+  paginationLoading: boolean;
 }
 
 const endpoint = "/discover/movie";
@@ -42,18 +36,21 @@ const defaultConfig = {
     "vote_count.gte": 100,
   },
 };
+const initialPage = 1;
 
 const useFetchMovies = (): IResponse => {
-  const [data, setData] = useState(null);
+  const [movies, setMovies] = useState<null | IMovie[]>(null);
   const [loading, setLoading] = useState(true);
+  const [paginationLoading, setPaginationLoading] = useState(false);
   const [error, setError] = useState<null | string>(null);
+  const [page, setPage] = useState(initialPage);
 
   useEffect(() => {
     const fetchEndpoint = async () => {
       try {
         const response = await api.get(endpoint, defaultConfig);
         setLoading(false);
-        setData(response.data);
+        setMovies(response.data.results);
       } catch (_error) {
         setLoading(false);
         setError("Error fetching API data");
@@ -63,7 +60,39 @@ const useFetchMovies = (): IResponse => {
     fetchEndpoint();
   }, []);
 
-  return { data, error, loading };
+  useEffect(() => {
+    if (page === initialPage) {
+      return;
+    }
+
+    const fetchEndpoint = async () => {
+      try {
+        setPaginationLoading(true);
+        const response = await api.get(endpoint, {
+          params: {
+            ...defaultConfig.params,
+            page,
+          },
+        });
+        setMovies((prevMovies) => {
+          const newMovies = response.data.results;
+          if (!prevMovies) {
+            return newMovies;
+          }
+
+          return [...prevMovies, ...newMovies];
+        });
+        setPaginationLoading(false);
+      } catch (_error) {
+        setPaginationLoading(false);
+        setError("Error fetching API data");
+      }
+    };
+
+    fetchEndpoint();
+  }, [page]);
+
+  return { movies, error, loading, setPage, paginationLoading };
 };
 
 export default useFetchMovies;
