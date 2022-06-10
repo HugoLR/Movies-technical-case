@@ -44,7 +44,6 @@ const localStoragePageKey = initialPage;
 const useFetchMovies = (): IResponse => {
   const [moviesFromLocalStorage, storeMoviesInLocalStorage] = useLocalStorage(localStorageKey, []);
   const [pageFromLocalStorage, storePageInLocalStorage] = useLocalStorage(String(localStoragePageKey), initialPage);
-  const [movies, setMovies] = useState<[] | IMovie[]>([]);
   const [loading, setLoading] = useState(() => !(moviesFromLocalStorage.length > 0));
   const [paginationLoading, setPaginationLoading] = useState(false);
   const [error, setError] = useState<null | string>(null);
@@ -52,33 +51,25 @@ const useFetchMovies = (): IResponse => {
 
   useEffect(() => {
     const fetchEndpoint = async () => {
-      if (moviesFromLocalStorage.length > 0) {
-        await Promise.resolve(setMovies(() => [...moviesFromLocalStorage]));
-        return;
-      }
-
       try {
         const response = await api.get(endpoint, defaultConfig);
         setLoading(false);
         storeMoviesInLocalStorage(response?.data?.results);
-        setMovies(response.data.results);
       } catch (_error) {
         setLoading(false);
         setError("Error fetching API data");
       }
     };
 
-    fetchEndpoint();
+    if (moviesFromLocalStorage.length === 0) {
+      fetchEndpoint();
+    }
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
     const fetchEndpoint = async () => {
-      if (page === pageFromLocalStorage) {
-        await Promise.resolve();
-        return;
-      }
-
       try {
         setPaginationLoading(true);
         const response = await api.get(endpoint, {
@@ -87,13 +78,13 @@ const useFetchMovies = (): IResponse => {
             page,
           },
         });
-        setMovies((prevMovies) => {
+        storeMoviesInLocalStorage((prevMovies: IMovie[]) => {
           const newMovies = [...prevMovies, ...response.data.results];
-
-          storeMoviesInLocalStorage(newMovies);
           return newMovies;
-        });
-        storePageInLocalStorage(page);
+        }, page > 2);
+        if (page <= 2) {
+          storePageInLocalStorage(page);
+        }
         setPaginationLoading(false);
       } catch (_error) {
         setPaginationLoading(false);
@@ -101,11 +92,14 @@ const useFetchMovies = (): IResponse => {
       }
     };
 
-    fetchEndpoint();
+    if (page !== pageFromLocalStorage) {
+      fetchEndpoint();
+    }
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [page]);
 
-  return { movies, error, loading, setPage, paginationLoading };
+  return { movies: moviesFromLocalStorage, error, loading, setPage, paginationLoading };
 };
 
 export default useFetchMovies;

@@ -15,12 +15,12 @@ function useLocalStorage<T>(key: string, initialValue: unknown) {
     }
   });
 
-  const setValue = (value: T | ((val: T) => T)) => {
+  const setValue = (value: T | ((val: T) => T), avoidStore = false) => {
     try {
       const valueToStore = value instanceof Function ? value(storedValue) : value;
       setStoredValue(valueToStore);
 
-      if (typeof window !== "undefined") {
+      if (typeof window !== "undefined" && !avoidStore) {
         window.localStorage.setItem(key, JSON.stringify(valueToStore));
       }
     } catch (error) {
