@@ -55,11 +55,3 @@
   justify-content: center;
   align-items: center;
 }
-.MovieCard-button {
-  height: fit-content;
-  padding: 0.8rem;
-  border: 2px solid #879fd6;
-  border-radius: 10px;
-  color: #ffffff;
-  background-color: transparent;
-}

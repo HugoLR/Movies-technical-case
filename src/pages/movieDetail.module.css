@@ -1,0 +1,82 @@
+.MovieDetail {
+  min-height: 100vh;
+  padding: 0 1.6rem 2.4rem 1.6rem;
+  background-color: #0b121f;
+}
+.MovieDetail-loaderContainer {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.MovieDetail-header {
+  position: sticky;
+  top: 0;
+  padding: 2.4rem 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #0b121f;
+  z-index: 1;
+}
+.MovieDetail-img {
+  min-width: 100%;
+  border-radius: 10px;
+  aspect-ratio: 1;
+  object-fit: cover;
+  opacity: 0.5;
+  box-shadow: 0px 8px 21px -7px hsl(240deg 8% 93%);
+}
+.MovieDetail-title {
+  margin-top: 2.4rem;
+  margin-bottom: 0.8rem;
+  color: #879fd6;
+  line-height: 1.8rem;
+}
+.MovieDetail-releaseDate {
+  font-size: 1.2rem;
+  color: #ffffff;
+}
+.MovieDetail-overview {
+  margin-top: 0.4rem;
+  font-size: 1.2rem;
+  color: #4b5a79;
+  line-height: 16px;
+}
+.MovieDetail-dataSection {
+  height: 100px;
+  padding: 0.8rem;
+  margin-top: 1.6rem;
+  display: flex;
+  background-color: #222b3a;
+  border-radius: 1rem;
+  opacity: 0.5;
+}
+.MovieDetail-dataSection > div {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  font-size: 1.4rem;
+  color: #fff;
+}
+.MovieDetail-dataSection div:nth-child(1),
+.MovieDetail-dataSection div:nth-child(2) {
+  border-right: 1px solid #879fd6;
+}
+.MovieDetail-dataSection div:nth-child(2),
+.MovieDetail-dataSection div:nth-child(3) {
+  flex-direction: column;
+  justify-content: center;
+}
+.MovieDetail-dataSection div:nth-child(2) p:last-child,
+.MovieDetail-dataSection div:nth-child(3) p:last-child {
+  margin-top: 0.8rem;
+  font-size: 1.8rem;
+  font-weight: bold;
+}
+.MovieDetail-voteAverage {
+  margin-right: 1.6rem;
+  font-size: 2.4rem;
+  font-weight: bold;
+  color: #eeb115;
+}
