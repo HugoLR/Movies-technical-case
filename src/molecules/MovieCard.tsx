@@ -15,7 +15,7 @@ function MovieCard({ movie }: IMovieCardProps) {
   const handleClick = () => navigate(`/movies/detail/${movie.id}`);
 
   return (
-    <div className={styles.MovieCard} onClick={handleClick} onKeyDown={handleClick} aria-hidden="true">
+    <div className={styles.MovieCard} onClick={handleClick} aria-hidden="true">
       <figure className={styles["MovieCard-imageContainer"]}>
         <img
           src={`${secureBaseUrl}${mobileSize}${movie.poster_path}`}

@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 
 import api from "~app/api";
+import useLocalStorage from "./useLocalStorage";
 
 export interface IMovie {
   adult: boolean;
@@ -42,17 +43,26 @@ const defaultConfig = {
   },
 };
 
+const localStorageKey = "Movie";
+
 const useFetchMovie = (id: string): IResponse => {
+  const [movieFromLocalStorage, storeMovieInLocalStorage] = useLocalStorage(localStorageKey, null);
   const [movie, setMovie] = useState<null | IMovie>(null);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(() => !(movieFromLocalStorage && movieFromLocalStorage?.id === Number(id)));
   const [error, setError] = useState<null | string>(null);
 
   useEffect(() => {
     const fetchEndpoint = async () => {
+      if (movieFromLocalStorage && movieFromLocalStorage?.id === Number(id)) {
+        await Promise.resolve(setMovie(movieFromLocalStorage));
+        return;
+      }
+
       try {
         const response = await api.get(`${endpoint}/${id}`, defaultConfig);
-        setLoading(false);
         setMovie(response.data);
+        storeMovieInLocalStorage(response.data);
+        setLoading(false);
       } catch (_error) {
         setLoading(false);
         setError("Error fetching API data");
@@ -60,6 +70,7 @@ const useFetchMovie = (id: string): IResponse => {
     };
 
     fetchEndpoint();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
 
   return { movie, error, loading };

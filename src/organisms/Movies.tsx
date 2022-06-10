@@ -23,7 +23,14 @@ function Movies() {
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const debounceHandleNextPage = useCallback(
-    debounce(() => setPage((prevPage) => prevPage + 1), 300),
+    debounce(
+      () =>
+        setPage((prevPage) => {
+          const newPage = prevPage + 1;
+          return newPage;
+        }),
+      300
+    ),
     [setPage]
   );
 

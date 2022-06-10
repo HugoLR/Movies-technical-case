@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 
 import api from "~app/api";
+import useLocalStorage from "./useLocalStorage";
 
 export interface IMovie {
   adult: boolean;
@@ -19,7 +20,7 @@ export interface IMovie {
   vote_count: number;
 }
 interface IResponse {
-  movies: IMovie[] | null;
+  movies: IMovie[] | [];
   loading: boolean;
   error: null | string;
   setPage: React.Dispatch<React.SetStateAction<number>>;
@@ -37,19 +38,29 @@ const defaultConfig = {
   },
 };
 const initialPage = 1;
+const localStorageKey = "movies";
+const localStoragePageKey = initialPage;
 
 const useFetchMovies = (): IResponse => {
-  const [movies, setMovies] = useState<null | IMovie[]>(null);
-  const [loading, setLoading] = useState(true);
+  const [moviesFromLocalStorage, storeMoviesInLocalStorage] = useLocalStorage(localStorageKey, []);
+  const [pageFromLocalStorage, storePageInLocalStorage] = useLocalStorage(String(localStoragePageKey), initialPage);
+  const [movies, setMovies] = useState<[] | IMovie[]>([]);
+  const [loading, setLoading] = useState(() => !(moviesFromLocalStorage.length > 0));
   const [paginationLoading, setPaginationLoading] = useState(false);
   const [error, setError] = useState<null | string>(null);
-  const [page, setPage] = useState(initialPage);
+  const [page, setPage] = useState(() => Number(pageFromLocalStorage));
 
   useEffect(() => {
     const fetchEndpoint = async () => {
+      if (moviesFromLocalStorage.length > 0) {
+        await Promise.resolve(setMovies(() => [...moviesFromLocalStorage]));
+        return;
+      }
+
       try {
         const response = await api.get(endpoint, defaultConfig);
         setLoading(false);
+        storeMoviesInLocalStorage(response?.data?.results);
         setMovies(response.data.results);
       } catch (_error) {
         setLoading(false);
@@ -58,14 +69,16 @@ const useFetchMovies = (): IResponse => {
     };
 
     fetchEndpoint();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
-    if (page === initialPage) {
-      return;
-    }
-
     const fetchEndpoint = async () => {
+      if (page === pageFromLocalStorage) {
+        await Promise.resolve();
+        return;
+      }
+
       try {
         setPaginationLoading(true);
         const response = await api.get(endpoint, {
@@ -75,13 +88,12 @@ const useFetchMovies = (): IResponse => {
           },
         });
         setMovies((prevMovies) => {
-          const newMovies = response.data.results;
-          if (!prevMovies) {
-            return newMovies;
-          }
+          const newMovies = [...prevMovies, ...response.data.results];
 
-          return [...prevMovies, ...newMovies];
+          storeMoviesInLocalStorage(newMovies);
+          return newMovies;
         });
+        storePageInLocalStorage(page);
         setPaginationLoading(false);
       } catch (_error) {
         setPaginationLoading(false);
@@ -90,6 +102,7 @@ const useFetchMovies = (): IResponse => {
     };
 
     fetchEndpoint();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [page]);
 
   return { movies, error, loading, setPage, paginationLoading };
