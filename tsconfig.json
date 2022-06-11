@@ -5,6 +5,7 @@
     "paths": {
       "~app/*": ["app/*"],
       "~atoms/*": ["atoms/*"],
+      "~context/*": ["context/*"],
       "~hooks/*": ["hooks/*"],
       "~molecules/*": ["molecules/*"],
       "~organisms/*": ["organisms/*"],

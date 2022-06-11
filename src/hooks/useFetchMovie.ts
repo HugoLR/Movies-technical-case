@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import api from "~app/api";
 import useLocalStorage from "./useLocalStorage";
 
-export interface IMovie {
+export interface IMovieDeatil {
   adult: boolean;
   backdrop_path: string;
   belongs_to_collection: null | {};
@@ -31,7 +31,7 @@ export interface IMovie {
   vote_count: number;
 }
 interface IResponse {
-  movie: IMovie | null;
+  movie: IMovieDeatil | null;
   loading: boolean;
   error: null | string;
 }
@@ -47,7 +47,7 @@ const localStorageKey = "Movie";
 
 const useFetchMovie = (id: string): IResponse => {
   const [movieFromLocalStorage, storeMovieInLocalStorage] = useLocalStorage(localStorageKey, null);
-  const [movie, setMovie] = useState<null | IMovie>(null);
+  const [movie, setMovie] = useState<null | IMovieDeatil>(null);
   const [loading, setLoading] = useState(() => !(movieFromLocalStorage && movieFromLocalStorage?.id === Number(id)));
   const [error, setError] = useState<null | string>(null);
 
