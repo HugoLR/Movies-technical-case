@@ -11,6 +11,7 @@
       "~organisms/*": ["organisms/*"],
       "~pages/*": ["pages/*"],
       "~routes/*": ["routes/*"],
+      "~templates/*": ["templates/*"],
       "~utils/*": ["utils/*"]
     },
     "useDefineForClassFields": true,

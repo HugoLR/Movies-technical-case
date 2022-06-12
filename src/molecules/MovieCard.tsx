@@ -1,6 +1,6 @@
-import { useContext, MouseEvent, useMemo, useEffect } from "react";
+import { useContext, MouseEvent, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
-import toast, { Toaster } from "react-hot-toast";
+import toast from "react-hot-toast";
 
 import { secureBaseUrl, mobileSize } from "~utils/images";
 import { IMovie } from "~hooks/useFetchMovies";
@@ -22,8 +22,6 @@ function MovieCard({ movie }: IMovieCardProps) {
   );
   const buttonText = isMovieInWatchList ? "Eliminar de watchlist" : "Agregar a watchlist";
   const buttonColor = isMovieInWatchList ? "danger" : "primary";
-
-  useEffect(() => () => toast.remove(), []);
 
   const handleClick = () => navigate(`/movies/detail/${movie.id}`);
 
@@ -59,7 +57,6 @@ function MovieCard({ movie }: IMovieCardProps) {
             color={buttonColor}
             onClick={isMovieInWatchList ? handleRemoveToWatchList : handleAddToWatchList}
           />
-          <Toaster />
         </div>
       </div>
     </div>

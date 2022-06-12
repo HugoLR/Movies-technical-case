@@ -1,6 +1,6 @@
-import { useContext, MouseEvent, useMemo, useEffect } from "react";
+import { useContext, MouseEvent, useMemo } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import toast, { Toaster } from "react-hot-toast";
+import toast from "react-hot-toast";
 
 import Loader from "~atoms/Loader";
 import ArrowLeft from "~atoms/ArrowLeft";
@@ -26,15 +26,13 @@ function MovieDetail() {
   const navigate = useNavigate();
   const { movie, error, loading } = useFetchMovie(params.id || "");
   const { saveMovie, watchList, updateWatchList } = useContext(WatchListContext) as IWatchListContext;
-  const showMovies = movie && !error && !loading;
+  const showMovie = movie && !error && !loading;
   const isMovieInWatchList = useMemo(
     () => watchList.some((watchListMovie) => watchListMovie.id === movie?.id),
     [movie?.id, watchList]
   );
   const buttonText = isMovieInWatchList ? "Eliminar de watchlist" : "Agregar a watchlist";
   const buttonColor = isMovieInWatchList ? "danger" : "primary";
-
-  useEffect(() => () => toast.remove(), []);
 
   const handleClick = () => navigate(-1);
 
@@ -62,10 +60,10 @@ function MovieDetail() {
 
   return (
     <>
-      <Seo title={`${movie?.title}` || "Detalle de película"} />
+      {showMovie && <Seo title={`${movie?.title}` || "Detalle de película"} />}
       <div className={styles.MovieDetail}>
         {loading && <MovieDetailLoading />}
-        {showMovies && (
+        {showMovie && (
           <>
             <header className={styles["MovieDetail-header"]}>
               <span onClick={handleClick} role="button" aria-hidden="true">
@@ -76,7 +74,6 @@ function MovieDetail() {
                 color={buttonColor}
                 onClick={isMovieInWatchList ? handleRemoveToWatchList : handleAddToWatchList}
               />
-              <Toaster />
             </header>
             <main>
               <figure>

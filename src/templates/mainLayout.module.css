@@ -1,0 +1,33 @@
+.MainLayout {
+  min-height: 100%;
+  padding: 0 1.6rem 2.4rem 1.6rem;
+  background-color: #0b121f;
+}
+.MainLayout-header {
+  position: sticky;
+  top: 0;
+  padding: 2.4rem 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #0b121f;
+  z-index: 1;
+}
+.MainLayout-nav ul {
+  list-style: none;
+}
+.MainLayout-nav li a {
+  font-size: 1.4rem;
+}
+.MainLayout-link {
+  color: #e6e2df;
+  text-decoration: none;
+}
+.MainLayout-link--active {
+  color: #879fd6;
+  border-bottom: 2px solid;
+}
+.MainLayout-main {
+  display: grid;
+  gap: 2.4rem;
+}
