@@ -2,9 +2,7 @@
 
 Single page application to list and add movies to watchlist, sorted by score average.
 
-
-https://user-images.githubusercontent.com/40678603/173287592-46ac68e1-f58f-4afb-b879-920084fb7ba4.mp4
-
+https://user-images.githubusercontent.com/40678603/173288762-3d7e65ea-c6f0-4b6f-86d4-6c20462bf7ad.mp4
 
 ## Features
 
