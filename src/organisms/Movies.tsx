@@ -17,7 +17,7 @@ function MoviesLoading() {
 
 function Movies() {
   const { loading, movies, setPage, paginationLoading } = useFetchMovies();
-  const showMovies = movies && Array.isArray(movies);
+  const showMovies = movies && Array.isArray(movies) && !loading;
   const externalRef = useRef(null);
   const { isNearScreen } = useNearScreen({ externalRef: loading ? null : externalRef, once: false });
 

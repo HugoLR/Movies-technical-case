@@ -7,9 +7,9 @@
   width: 64px;
   height: 64px;
   margin: 8px;
-  border: 6px solid #fff;
+  border: 6px solid var(--white);
   border-radius: 50%;
-  border-color: #fff transparent #fff transparent;
+  border-color: var(--white) transparent var(--white) transparent;
   content: " ";
   display: block;
   animation: Loader 1.2s linear infinite;

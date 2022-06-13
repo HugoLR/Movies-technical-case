@@ -1,7 +1,7 @@
 .MainLayout {
   min-height: 100%;
   padding: 0 1.6rem 2.4rem 1.6rem;
-  background-color: #0b121f;
+  background-color: var(--background);
 }
 .MainLayout-header {
   position: sticky;
@@ -10,7 +10,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #0b121f;
+  background-color: var(--background);
   z-index: 1;
 }
 .MainLayout-nav ul {
@@ -20,14 +20,20 @@
   font-size: 1.4rem;
 }
 .MainLayout-link {
-  color: #e6e2df;
+  color: var(--link);
   text-decoration: none;
 }
 .MainLayout-link--active {
-  color: #879fd6;
+  color: var(--primary);
   border-bottom: 2px solid;
 }
 .MainLayout-main {
   display: grid;
   gap: 2.4rem;
+}
+@media (min-width: 1008px) {
+  .MainLayout-main {
+    grid-template-columns: repeat(auto-fit, 250px);
+    justify-content: center;
+  }
 }

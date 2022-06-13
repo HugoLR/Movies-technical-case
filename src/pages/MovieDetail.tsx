@@ -9,8 +9,10 @@ import Seo from "~molecules/Seo";
 import styles from "./movieDetail.module.css";
 import toastSuccess from "~utils/toast";
 import { IMovie } from "~hooks/useFetchMovies";
+import useWindowSize from "~hooks/useWindowSize";
 import useFetchMovie, { IMovieDeatil } from "~hooks/useFetchMovie";
-import { secureBaseUrl, mobileSize } from "~utils/images";
+import { secureBaseUrl, mobileSize, desktopSize } from "~utils/images";
+import desktop from "~utils/breakpoints";
 import { IWatchListContext, WatchListContext } from "~context/watchListContext";
 
 function MovieDetailLoading() {
@@ -26,11 +28,24 @@ function MovieDetail() {
   const navigate = useNavigate();
   const { movie, error, loading } = useFetchMovie(params.id || "");
   const { saveMovie, watchList, updateWatchList } = useContext(WatchListContext) as IWatchListContext;
+  const { width } = useWindowSize();
   const showMovie = movie && !error && !loading;
   const isMovieInWatchList = useMemo(
     () => watchList.some((watchListMovie) => watchListMovie.id === movie?.id),
     [movie?.id, watchList]
   );
+  const imageUrl = useMemo(() => {
+    const isDesktop = width && width > desktop;
+    const imageSize = isDesktop ? desktopSize : mobileSize;
+    const imagePath = isDesktop ? movie?.backdrop_path : movie?.poster_path;
+
+    if (movie) {
+      return `${secureBaseUrl}${imageSize}${imagePath}`;
+    }
+
+    return "";
+  }, [width, movie]);
+
   const buttonText = isMovieInWatchList ? "Eliminar de watchlist" : "Agregar a watchlist";
   const buttonColor = isMovieInWatchList ? "danger" : "primary";
 
@@ -78,12 +93,12 @@ function MovieDetail() {
             <main>
               <figure>
                 <img
-                  src={`${secureBaseUrl}${mobileSize}${movie.poster_path}`}
+                  src={imageUrl}
                   alt={`Poster de la pelicula ${movie.title}`}
                   className={styles["MovieDetail-img"]}
                 />
               </figure>
-              <h2 className={styles["MovieDetail-title"]}>{movie.title}</h2>
+              <h1 className={styles["MovieDetail-title"]}>{movie.title}</h1>
               <p className={styles["MovieDetail-releaseDate"]}>Fecha de estreno: {movie.release_date}</p>
               <p className={styles["MovieDetail-releaseDate"]}>Géneros: {getMovieGenresText(movie)}</p>
               <p className={styles["MovieDetail-overview"]}>{movie.overview}</p>

@@ -5,6 +5,16 @@
 4. Visuales
 5. Otros 
 */
+:root {
+  --primary: #879fd6;
+  --secondary: #222b3a;
+  --secondary-text: #4b5a79;
+  --danger: #983636;
+  --background: #0b121f;
+  --link: #e6e2df;
+  --white: #ffffff;
+  --yellow: #eeb115;
+}
 * {
   padding: 0;
 }
