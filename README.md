@@ -2,6 +2,10 @@
 
 Single page application to list and add movies to watchlist, sorted by score average.
 
+
+https://user-images.githubusercontent.com/40678603/173287592-46ac68e1-f58f-4afb-b879-920084fb7ba4.mp4
+
+
 ## Features
 
 - ⚡️ Lightning fast HMR and builds thanks to [Vite](https://vitejs.dev/)
