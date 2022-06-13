@@ -1,6 +1,10 @@
 .Movies-loaderContainer {
-  min-height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
+}
+@media (min-width: 1008px) {
+  .Movies-loaderContainer {
+    min-height: 100vh;
+  }
 }

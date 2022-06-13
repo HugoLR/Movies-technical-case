@@ -2,6 +2,7 @@
   "compilerOptions": {
     "target": "ESNext",
     "baseUrl": "./src",
+    "types": ["jest", "testing-library__jest-dom"],
     "paths": {
       "~app/*": ["app/*"],
       "~atoms/*": ["atoms/*"],
@@ -29,6 +30,6 @@
     "noEmit": true,
     "jsx": "react-jsx"
   },
-  "include": ["src"],
+  "include": ["src", "jest.config.js", "jest.setup.ts"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }
