@@ -32,7 +32,7 @@ Create a `env.local` file in the root, and add
 
 ```sh
 VITE_API_URL = https://api.themoviedb.org/3
-VITE_API_KEY = 0594315a054588e77c7b630046053929
+VITE_API_KEY = 
 ```
 
 Start the vite dev server:
